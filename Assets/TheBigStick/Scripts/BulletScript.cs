@@ -11,13 +11,26 @@ public class BulletScript : MonoBehaviour {
 	private int damage;
 	private int range;
 	private Vector3 startPos;
-	private MuseumPlayer origin; //Null if from enemy, otherwise it's a specific player
+	private MuseumPlayer origin; // Null if from enemy, otherwise it's a specific player
+								 // This could be cool if we could give the ships random names of enemy ships from the era and have it say
+								 // "You've been killed by X" where X is a historically accurate ship from the battle
+								 // Would have to change the OnCollisionEnter function
 
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
+
+	//gets information from the player that fired this bullet
+	public void setBullet(int travelSpeed, int damage, int range, MuseumPlayer player)
+	{
+		this.travelSpeed = travelSpeed;
+		this.damage = damage;
+		this.range = range;
+		this.origin = player;
+		startPos = transform.position;
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -30,16 +43,6 @@ public class BulletScript : MonoBehaviour {
 		}
 
 	}
-
-	//gets information from the player that fired this bullet
-	public void setBullet(int travelSpeed, int damage, int range, MuseumPlayer player) {
-		this.travelSpeed = travelSpeed;
-		this.damage = damage;
-		this.range = range;
-		this.origin = player;
-		startPos = transform.position;
-	}
-
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (origin != null) {

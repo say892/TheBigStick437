@@ -40,38 +40,8 @@ public class MuseumPlayer {
 		return playerUpgrades;
 	}
 
-	public void addPlayerUpgrade(shipUpgades upgradeNum) {
+	public void addPlayerUpgrade(shipUpgrades upgradeNum) {
 		playerUpgrades += (1 << (int)upgradeNum);
 	}
 		
-}
-
-/**
- * Enum for ship stats. 
- * Trick: To convert from upgrade number to bitfield, do 1 << (int)upgrade number. Math is cool.
- **/
-public enum shipUpgades {
-	
-	health = 0,
-	forwardSpeed = 1, 
-	backwardSpeed = 2,
-	turnSpeedDegree = 3,
-	missileSpeed = 4,
-	missileDamage = 5,
-	missileShotDelay = 6,
-	missileRange = 7,
-}
-	
-/**
- * Bitfields for easier stat checking. It's a total waste of space, but it works.
- **/
-public struct shipUpgradesBit {
-	public static int healthU =           0x00000001;
-	public static int forwardSpeedU =     0x00000002;
-	public static int backwardSpeedU =    0x00000004;
-	public static int turnSpeedDegreesU = 0x00000008;
-	public static int missileSpeedU =     0x00000010;
-	public static int missileDamageU =    0x00000020;
-	public static int missileShotDelayU = 0x00000040;
-	public static int missileRangeU =     0x00000080;
 }

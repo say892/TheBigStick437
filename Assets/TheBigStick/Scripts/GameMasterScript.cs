@@ -17,7 +17,7 @@ public class GameMasterScript : MonoBehaviour {
 
 	void Awake() {
 
-		//I don't know if we'll be chaning scenes at all, but yay singletons
+		//I don't know if we'll be changing scenes at all, but yay singletons
 		if (instance == null) {
 			instance = this;
 		}
@@ -34,7 +34,7 @@ public class GameMasterScript : MonoBehaviour {
 
 		//allPlayers.Add(new MuseumPlayer());
 		//This is how we'll have to add upgrades
-		//allPlayers[0].addPlayerUpgrade(shipUpgades.health);
+		//allPlayers[0].addPlayerUpgrade(shipUpgrades.health);
 		//And this is how we check if the player has the upgrade. Returns 1 if they do.
 		//allPlayers[0].getPlayerUpgrades() & shipUpgradesBit.healthU;
 	
@@ -45,14 +45,14 @@ public class GameMasterScript : MonoBehaviour {
 
 		//Cheat!
 		if (Input.GetKeyDown(KeyCode.L)) {
-			allPlayers[0].addPlayerUpgrade(shipUpgades.health);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.forwardSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.backwardSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.turnSpeedDegree);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.missileSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.missileDamage);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.missileRange);
-			allPlayers[0].addPlayerUpgrade(shipUpgades.missileShotDelay);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.health);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.forwardSpeed);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.backwardSpeed);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.turnSpeedDegree);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileSpeed);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileDamage);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileRange);
+			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileShotDelay);
 		}
 	}
 
