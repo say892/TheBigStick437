@@ -15,6 +15,9 @@ public class GameMasterScript : MonoBehaviour {
 	[SerializeField]
 	private GameObject theBigStickSpawnPos;
 
+	[SerializeField]
+	private GameObject explodePrefab;
+
 	void Awake() {
 
 		//I don't know if we'll be changing scenes at all, but yay singletons
@@ -53,6 +56,10 @@ public class GameMasterScript : MonoBehaviour {
 			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileDamage);
 			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileRange);
 			allPlayers[0].addPlayerUpgrade(shipUpgrades.missileShotDelay);
+		}
+
+		if (Input.GetKeyDown(KeyCode.P)) {
+			Instantiate(explodePrefab, Vector3.zero, Quaternion.identity);
 		}
 	}
 

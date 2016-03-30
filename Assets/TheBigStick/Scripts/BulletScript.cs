@@ -16,6 +16,10 @@ public class BulletScript : MonoBehaviour {
 								 // "You've been killed by X" where X is a historically accurate ship from the battle
 								 // Would have to change the OnCollisionEnter function
 
+	[SerializeField]
+	private GameObject explosionPrefab; //Used to create the boom when the ship is sunk
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -50,6 +54,7 @@ public class BulletScript : MonoBehaviour {
 				//Destroy(other.gameObject);
 				if (other.gameObject.GetComponent<EnemyShip>().takeDamage(damage)) {
 					origin.addScore(50); //Just assume it's never the boss. TODO TODO TODO
+					Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 				}
 				Destroy(this.gameObject);
 			}
