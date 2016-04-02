@@ -12,7 +12,7 @@ public class FakeEnemies : MonoBehaviour {
 	void Update () {
 	
 		Vector3 currentRot = transform.rotation.eulerAngles;
-		currentRot.z += 4 * Time.deltaTime;
+		currentRot.y -= 4 * Time.deltaTime;
 		transform.rotation = Quaternion.Euler(currentRot);
 	}
 }

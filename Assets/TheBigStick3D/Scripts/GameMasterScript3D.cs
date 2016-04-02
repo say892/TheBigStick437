@@ -18,6 +18,8 @@ public class GameMasterScript3D : MonoBehaviour {
 	[SerializeField]
 	private GameObject explodePrefab;
 
+
+
 	void Awake() {
 
 		//I don't know if we'll be changing scenes at all, but yay singletons
@@ -114,7 +116,7 @@ public class GameMasterScript3D : MonoBehaviour {
 
 	void OnGUI() {
 
-		GUI.Label(new Rect(20, 20, 500, 100), "There are " + allPlayers.Count + " players registered");
+		//GUI.Label(new Rect(20, 20, 500, 100), "There are " + allPlayers.Count + " players registered");
 
 	}
 

@@ -16,8 +16,8 @@ public class BulletScript3D : MonoBehaviour {
 								 // "You've been killed by X" where X is a historically accurate ship from the battle
 								 // Would have to change the OnCollisionEnter function
 
-	//[SerializeField]
-	//private GameObject explosionPrefab; //Used to create the boom when the ship is sunk
+	[SerializeField]
+	private GameObject explosionPrefab; //Used to create the boom when the ship is sunk
 
 
 	// Use this for initialization
@@ -56,7 +56,7 @@ public class BulletScript3D : MonoBehaviour {
 				//Destroy(other.gameObject);
 				if (other.gameObject.GetComponent<EnemyShip3D>().takeDamage(damage)) {
 					origin.addScore(50); //Just assume it's never the boss. TODO TODO TODO
-					//Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+					Instantiate(explosionPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 				}
 				Destroy(this.gameObject);
 			}

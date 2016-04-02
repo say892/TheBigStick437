@@ -17,6 +17,9 @@ public class PlayerShip3D : MonoBehaviour {
 	[SerializeField]
 	private GameObject bulletPrefab;
 
+	[SerializeField]
+	private Material upgradePlayerText;
+
 	private float shootTimer;
 
 	private int health;
@@ -56,6 +59,10 @@ public class PlayerShip3D : MonoBehaviour {
 
 		//TODO don't do this every frame. Testing only.
 		checkUpgrades();
+
+		if (Input.GetKeyDown(KeyCode.L)) {
+			GetComponent<Renderer>().material = upgradePlayerText;
+		}
 	}
 
 
@@ -177,6 +184,7 @@ public class PlayerShip3D : MonoBehaviour {
 	}
 		
 	void OnGUI() {
+		/*
 		string thing = 
 			health +  "\n" +
 			forwardSpeed +  "\n" +
@@ -186,7 +194,7 @@ public class PlayerShip3D : MonoBehaviour {
 			missileDamage +  "\n" +
 			missileShotDelay +  "\n" +
 			missileRange +  "\n";
-		GUI.Label(new Rect(20, 50, 200, 1000), thing);
+		GUI.Label(new Rect(20, 50, 200, 1000), thing);*/
 	}
 
 }
