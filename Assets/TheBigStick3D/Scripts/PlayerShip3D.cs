@@ -42,6 +42,9 @@ public class PlayerShip3D : MonoBehaviour {
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
 
+		//shade the player's ship the color of their controller
+		GetComponent<MeshRenderer>().material.color = mGamepad.Color;
+
 		checkUpgrades(); //Fill out our ship stats
 
 		shootTimer = 0;
@@ -62,6 +65,7 @@ public class PlayerShip3D : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.L)) {
 			GetComponent<Renderer>().material = upgradePlayerText;
+			GetComponent<MeshRenderer>().material.color = mGamepad.Color;
 		}
 	}
 
