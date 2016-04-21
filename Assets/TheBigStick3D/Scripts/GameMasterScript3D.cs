@@ -49,6 +49,7 @@ public class GameMasterScript3D : MonoBehaviour {
 	void Update () {
 
 		//Cheat!
+		/*
 		if (Input.GetKeyDown(KeyCode.L)) {
 			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.health);
 			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
@@ -62,7 +63,7 @@ public class GameMasterScript3D : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.P)) {
 			Instantiate(explodePrefab, Vector3.zero, Quaternion.identity);
-		}
+		}*/
 	}
 
 	public bool containsPlayer(HFTGamepad p) {

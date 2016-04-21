@@ -41,7 +41,10 @@ public class MuseumPlayer3D {
 	}
 
 	public void addPlayerUpgrade(shipUpgrades3D upgradeNum) {
-		playerUpgrades += (1 << (int)upgradeNum);
+		int bit = 1 << (int)upgradeNum;
+		//make sure that the player doesn't have the upgrade already
+		if ((playerUpgrades & bit) == 0) {
+			playerUpgrades += (bit);
+		}
 	}
-		
 }

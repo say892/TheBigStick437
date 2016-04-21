@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using HappyFunTimes;
 
 /**
  * Every player has their own ship, which they control by using their phone. 
@@ -8,9 +9,16 @@ using System.Collections;
  **/
 public class PlayerShip3D : MonoBehaviour {
 
+
+	// Message received from controller about upgrade string sent.
+	private class MessageCharacter : MessageCmdData {
+		public string upgradeName = "";
+	}
+
 	private HFTInput mInput;
 	private HFTGamepad mGamepad;
 	private MuseumPlayer3D mPlayer;
+	private NetPlayer mNetPlayer;
 
 	private GameMasterScript3D GameMaster;
 
@@ -51,6 +59,25 @@ public class PlayerShip3D : MonoBehaviour {
 
 		transform.position = GameMaster.getSpawnPos();
 	}
+
+	//called when the player is spawned
+	void InitializeNetPlayer(SpawnInfo spawnInfo) {
+		// Save the netplayer object
+		mNetPlayer = spawnInfo.netPlayer;
+		// Register handler to call if the player disconnects from the game.
+		mNetPlayer.OnDisconnect += removePlayer;
+
+		//gets the players upgrade string
+		mNetPlayer.RegisterCmdHandler<MessageCharacter>("upgrade", onUpgrade);
+
+		//the player wants to go back to the Dpad/button setup
+		mNetPlayer.RegisterCmdHandler<MessageCharacter>("retToGame", backToGame);
+
+		//the player wants to try to enter an upgrade.
+		mNetPlayer.RegisterCmdHandler<MessageCharacter>("goToUpgrade", gotoUpgrades);
+
+	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -186,7 +213,69 @@ public class PlayerShip3D : MonoBehaviour {
 			
 
 	}
-		
+
+	//kick the player from the game if they leave their phone
+	private void removePlayer(object sender, System.EventArgs e) {
+		Destroy(gameObject);
+	}
+
+
+	private void onUpgrade(MessageCharacter data) {
+		string upgrade = data.upgradeName;
+
+		//print(upgrade + "");
+
+		//Teehee
+		if (upgrade.Equals("God")) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.health);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.backwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.turnSpeedDegree);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileDamage);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileRange);
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileShotDelay);
+
+		}
+		if (upgrade.Equals(shipUpgradeCodes.healthU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.health);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.forwardSpeedU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.backwardSpeedU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.backwardSpeed);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.turnSpeedDegreesU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.turnSpeedDegree);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.missileSpeedU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileSpeed);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.missileDamageU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileDamage);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.missileShotDelayU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileShotDelay);
+		}
+		if (upgrade.Equals(shipUpgradeCodes.missileRangeU)) {
+			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileRange);
+		}
+
+	}
+
+	private void backToGame(MessageCharacter data) {
+		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_1dpad_2button;
+	}
+
+	private void gotoUpgrades(MessageCharacter data) {
+		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_upgrade;
+	}
+
+
+
+
+
 	void OnGUI() {
 		/*
 		string thing = 

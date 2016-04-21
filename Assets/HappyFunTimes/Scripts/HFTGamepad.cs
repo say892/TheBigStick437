@@ -46,6 +46,7 @@ public class HFTGamepad : MonoBehaviour {
     c_1lrpad,
     c_touch,
     c_orient,
+	c_upgrade,
   }
 
   [System.Serializable]

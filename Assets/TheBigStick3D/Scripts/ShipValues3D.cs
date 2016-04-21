@@ -79,3 +79,14 @@ public struct shipUpgrades3DBit
 	public static int missileShotDelayU = 0x00000040;
 	public static int missileRangeU = 0x00000080;
 }
+
+public struct shipUpgradeCodes {
+	public static string healthU = "Health";
+	public static string forwardSpeedU = "Forward";
+	public static string backwardSpeedU = "Backward";
+	public static string turnSpeedDegreesU = "Turn";
+	public static string missileSpeedU = "Speed";
+	public static string missileDamageU = "Damage";
+	public static string missileShotDelayU = "Shot";
+	public static string missileRangeU = "Range";
+}

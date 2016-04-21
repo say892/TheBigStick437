@@ -134,6 +134,9 @@ requirejs([
       orientation: "portrait",
       orientationOptional: true,
     },
+	"upgrade": {
+      orientation: "landscape",
+    },
   };
 
   function to255(v) {
@@ -363,6 +366,48 @@ requirejs([
       { referenceElement: $("lrpad"), },
     ],
   });
+  
+  
+  //RYAN ADDED ALL THIS TO...  
+  function sendUpgrade() {
+    
+	//get input from player
+	var upgradeName = document.getElementById("upgradeCode");
+	console.log("Lego");
+	//send input to game
+	client.sendCmd('upgrade', { upgradeName : upgradeName.value});
+	
+	//clear input after they enter an upgrade
+	upgradeName.value = "";
+	
+	//TODO get a message back from the game saying successful upgrade
+  }
+  
+  function returntoGame() {
+	//resets the players controller back to the control screen
+	client.sendCmd('retToGame');
+  }
+  
+  function gotoUpgrades() {
+	//updates the controller view to be the upgrade screen
+	client.sendCmd('goToUpgrade');
+  }
+  
+  
+  var $ = document.getElementById.bind(document);
+  $("submitCode").addEventListener('click', function() { sendUpgrade(); });
+  $("submitCode").addEventListener('touchstart', function() { sendUpgrade(); });
+  
+  $("returnButton").addEventListener('click', function() { returntoGame(); });
+  $("returnButton").addEventListener('touchstart', function() { returntoGame(); });
+  
+  $("upgradeButton").addEventListener('click', function() { gotoUpgrades(); });
+  $("upgradeButton").addEventListener('touchstart', function() { gotoUpgrades(); });
+  
+  //... ALL OF THIS
+  
+  
+  
 
   // Setup the touch area
   $("touch").addEventListener('pointermove', function(event) {

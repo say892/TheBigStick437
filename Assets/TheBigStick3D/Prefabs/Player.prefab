@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerOptions:
-    controllerType: 2
+    controllerType: 11
     provideOrientation: 0
     provideAcceleration: 0
     provideRotationRate: 0
