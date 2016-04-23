@@ -46,6 +46,6 @@ public class ControlPoint : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Label(new Rect(20, 100, 100, 200), "Control point influence: " + influence);
+		//GUI.Label(new Rect(20, 100, 100, 200), "Control point influence: " + influence);
 	}
 }
