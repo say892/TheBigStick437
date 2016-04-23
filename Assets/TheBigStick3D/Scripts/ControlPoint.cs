@@ -3,11 +3,13 @@ using System.Collections;
 
 public class ControlPoint : MonoBehaviour {
 
-	int influence; //the status of a point. -100 for full enemy control, 100 for full player control.
-
+	float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
+	Material mat;
 	// Use this for initialization
 	void Start () {
+
 		influence = 0; //start nuetral. 
+		mat = GetComponent<MeshRenderer>().material;
 
 		//Only check every .25 seconds
 		InvokeRepeating("updateInfluence", 0, 0.25F);
@@ -21,9 +23,9 @@ public class ControlPoint : MonoBehaviour {
 	void updateInfluence() {
 		//Note: Range is hardcoded to 10 as that is what the scale of the capture zone sprite is. 
 		//You can use Transform.GetChild(0).transform.localScale.x to get this value if we want different sized zones.
-		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 6); //gets all objects within range
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10); //gets all objects within range
 
-		int totalVal = 0;
+		float totalVal = 0;
 
 		//check to see if they are ships
 		foreach(Collider c in hitColliders) {
@@ -34,15 +36,28 @@ public class ControlPoint : MonoBehaviour {
 				totalVal++;
 			}
 		}
-
+		if (totalVal == 0 && influence < 255) totalVal = .25F;
 		//decide updated influence based off of player vs. ship counts
 		influence += totalVal;
+
 		//clamp that shiddy shiz
 		influence = Mathf.Clamp(influence, -100, 100);
+
+
+		//update the sphere color to show who has the most influence
+		Color matColor = mat.color;
+		//if (influence <= 0) matColor.r = 255;
+		//else matColor.r = Mathf.Lerp(255, 0, influence/100);
+		//if (influenc) 
+
+		print(matColor.r);
+		mat.color = matColor;
+
+
 	}
 
 	void OnDrawGizmosSelected() {
-		Gizmos.DrawSphere(transform.position, 6); //ignore. Used for testing.
+		//Gizmos.DrawSphere(transform.position, 10); //ignore. Used for testing.
 	}
 
 	void OnGUI() {
