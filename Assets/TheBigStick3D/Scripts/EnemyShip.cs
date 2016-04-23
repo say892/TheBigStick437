@@ -1,4 +1,4 @@
-﻿using UnityEngine;   
+﻿﻿using UnityEngine;   
 using System.Collections.Generic;
 using RAIN.BehaviorTrees;
 using RAIN.Core;
@@ -19,6 +19,8 @@ public class EnemyShip : MonoBehaviour {
 	private float missileShotDelay;
 	private int missileRange;
 
+	private EnemySpawning enemySpawner;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -31,11 +33,14 @@ public class EnemyShip : MonoBehaviour {
 		missileShotDelay = ShipValues.enemyMissileShotDelay;
 		missileRange = ShipValues.enemyMissileRange;
 
-		AIRig rig = GetComponentInChildren<RAIN.Core.AIRig>();
-		if (rig == null) return;
-		BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset");
-		BasicMind mind = (BasicMind)rig.AI.Mind;
-		mind.SetBehavior(tree, new List<BTAssetBinding>());
+		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
+
+		AIRig rig = GetComponentInChildren<AIRig>(); 
+		if (rig == null) return; 
+		BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset"); 
+		BasicMind mind = (BasicMind)rig.AI.Mind; 
+		mind.SetBehavior(tree, new List<BTAssetBinding>()); 
+
 	}
 	
 	// Update is called once per frame
@@ -48,6 +53,7 @@ public class EnemyShip : MonoBehaviour {
 		health -= damage;
 		if (health <= 0) {
 			Destroy(this.gameObject);
+			enemySpawner.spawnEnemy(); //spawn a new enemy
 			return true;
 		}
 		return false;

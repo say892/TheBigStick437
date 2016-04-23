@@ -4,8 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Unwalkable
-  - Enemy
+  - ControlPoint
   layers:
   - Default
   - TransparentFX

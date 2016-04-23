@@ -21,7 +21,7 @@ public class ControlPoint : MonoBehaviour {
 	void updateInfluence() {
 		//Note: Range is hardcoded to 10 as that is what the scale of the capture zone sprite is. 
 		//You can use Transform.GetChild(0).transform.localScale.x to get this value if we want different sized zones.
-		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10); //gets all objects within range
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 6); //gets all objects within range
 
 		int totalVal = 0;
 
@@ -42,7 +42,7 @@ public class ControlPoint : MonoBehaviour {
 	}
 
 	void OnDrawGizmosSelected() {
-		Gizmos.DrawSphere(transform.position, 10); //ignore. Used for testing.
+		Gizmos.DrawSphere(transform.position, 6); //ignore. Used for testing.
 	}
 
 	void OnGUI() {

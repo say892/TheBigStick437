@@ -39,6 +39,8 @@ public class PlayerShip : MonoBehaviour {
 	private float missileShotDelay;
 	private int missileRange;
 
+	private EnemySpawning enemySpawner;
+
 	// Use this for initialization
 	void Start () {
 	 
@@ -47,6 +49,7 @@ public class PlayerShip : MonoBehaviour {
 
 
 		GameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMasterScript>();
+		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
 
@@ -58,6 +61,9 @@ public class PlayerShip : MonoBehaviour {
 		shootTimer = 0;
 
 		transform.position = GameMaster.getSpawnPos();
+
+		enemySpawner.spawnEnemy(); //spawn 2 enemies at the start of every player
+		enemySpawner.spawnEnemy();
 	}
 
 	//called when the player is spawned
@@ -216,6 +222,7 @@ public class PlayerShip : MonoBehaviour {
 
 	//kick the player from the game if they leave their phone
 	private void removePlayer(object sender, System.EventArgs e) {
+		enemySpawner.deleteFarthestEnemies();
 		Destroy(gameObject);
 	}
 
@@ -271,6 +278,7 @@ public class PlayerShip : MonoBehaviour {
 	private void gotoUpgrades(MessageCharacter data) {
 		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_upgrade;
 	}
+
 
 
 
