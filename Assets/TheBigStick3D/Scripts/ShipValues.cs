@@ -7,7 +7,7 @@ using System.Collections;
  * This file holds all the structs and values for ship movement, etc.
  * 
  **/
-public struct ShipValues3D {
+public struct ShipValues {
 
 	//values are in units/sec where units are Unity Units, degrees, or missile-shots. Use time.DeltaTime whenever possible
 	public static int		playerHealth = 2000;
@@ -53,7 +53,7 @@ public struct ShipValues3D {
  * Enum for ship stats. 
  * Trick: To convert from upgrade number to bitfield, do 1 << (int)upgrade number. Math is cool.
  **/
-public enum shipUpgrades3D
+public enum shipUpgrades
 {
 	health = 0,
 	forwardSpeed = 1,
@@ -68,7 +68,7 @@ public enum shipUpgrades3D
 /**
  * Bitfields for easier stat checking. It's a total waste of space, but it works.
  **/
-public struct shipUpgrades3DBit
+public struct shipUpgradesBit
 {
 	public static int healthU = 0x00000001;
 	public static int forwardSpeedU = 0x00000002;

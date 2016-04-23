@@ -10,9 +10,9 @@ public class FakeEnemies : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 		Vector3 currentRot = transform.rotation.eulerAngles;
-		currentRot.y -= 4 * Time.deltaTime;
+		currentRot.y += 4 * Time.deltaTime;
 		transform.rotation = Quaternion.Euler(currentRot);
 	}
 }

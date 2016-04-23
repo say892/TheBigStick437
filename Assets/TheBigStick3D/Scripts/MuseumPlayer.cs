@@ -6,7 +6,7 @@ using System.Collections;
  * "should" remember them even after a few days. It depends on the phone I think. Anyway,
  * this is mainly to keep track of what players have which upgrades.
  **/
-public class MuseumPlayer3D {
+public class MuseumPlayer {
 
 	private HFTGamepad player;
 	private int score;
@@ -14,11 +14,11 @@ public class MuseumPlayer3D {
 	private int playerUpgrades;
 
 
-	public MuseumPlayer3D() {
+	public MuseumPlayer() {
 		//This should never be used, only to test without needing a controller
 	}
 
-	public MuseumPlayer3D(HFTGamepad p) {
+	public MuseumPlayer(HFTGamepad p) {
 		player = p;
 		score = 0;
 		playerUpgrades = 0;
@@ -40,7 +40,7 @@ public class MuseumPlayer3D {
 		return playerUpgrades;
 	}
 
-	public void addPlayerUpgrade(shipUpgrades3D upgradeNum) {
+	public void addPlayerUpgrade(shipUpgrades upgradeNum) {
 		int bit = 1 << (int)upgradeNum;
 		//make sure that the player doesn't have the upgrade already
 		if ((playerUpgrades & bit) == 0) {

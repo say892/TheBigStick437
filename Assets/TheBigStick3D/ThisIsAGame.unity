@@ -499,7 +499,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: e3c35727c5bb4494aa665faf4bfe6310, type: 2}
+  - {fileID: 2100000, guid: 11bc17ef990e5644dab5cd9d3ee1a5af, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -670,6 +670,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1bb309b668ed6408167d610b79ac44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  forwardSpeed: 0
+  backwardSpeed: 0
+  turnSpeedDegrees: 0
+  missileSpeed: 0
+  missileDamage: 0
+  missileShotDelay: 0
+  missileRange: 0
 --- !u!23 &1655059904
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -840,7 +848,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1719954145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aab84b969f9d904aac7d9c21cc9f0ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 105705529a86fec40b6a420bab5c7105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1719954147

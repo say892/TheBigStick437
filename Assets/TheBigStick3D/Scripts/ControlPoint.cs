@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControlPoint3D : MonoBehaviour {
+public class ControlPoint : MonoBehaviour {
 
 	int influence; //the status of a point. -100 for full enemy control, 100 for full player control.
 

@@ -7,7 +7,7 @@ using HappyFunTimes;
  * This is the object that is spawned by HappyFunTimes, so we need to add the player to the list of players if 
  * we haven't done so already. 
  **/
-public class PlayerShip3D : MonoBehaviour {
+public class PlayerShip : MonoBehaviour {
 
 
 	// Message received from controller about upgrade string sent.
@@ -17,10 +17,10 @@ public class PlayerShip3D : MonoBehaviour {
 
 	private HFTInput mInput;
 	private HFTGamepad mGamepad;
-	private MuseumPlayer3D mPlayer;
+	private MuseumPlayer mPlayer;
 	private NetPlayer mNetPlayer;
 
-	private GameMasterScript3D GameMaster;
+	private GameMasterScript GameMaster;
 
 	[SerializeField]
 	private GameObject bulletPrefab;
@@ -46,7 +46,7 @@ public class PlayerShip3D : MonoBehaviour {
 		mGamepad = GetComponent<HFTGamepad>();
 
 
-		GameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMasterScript3D>();
+		GameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMasterScript>();
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
 
@@ -125,7 +125,7 @@ public class PlayerShip3D : MonoBehaviour {
 				shootTimer = 0;
 				//create the bullet and then set the needed information in the new bullet
 				GameObject newBullet = (GameObject)Instantiate(bulletPrefab, transform.FindChild("BulletSpawnPos").position, transform.rotation);
-				newBullet.GetComponent<BulletScript3D>().setBullet(missileSpeed, missileDamage, missileRange, mPlayer);
+				newBullet.GetComponent<BulletScript>().setBullet(missileSpeed, missileDamage, missileRange, mPlayer);
 			}
 		}
 
@@ -147,67 +147,67 @@ public class PlayerShip3D : MonoBehaviour {
 		int myUpgrades = mPlayer.getPlayerUpgrades();
 
 		//Health
-		if ((myUpgrades & shipUpgrades3DBit.healthU) != 0) {
-			health = ShipValues3D.playerHealthUpgrade;
+		if ((myUpgrades & shipUpgradesBit.healthU) != 0) {
+			health = ShipValues.playerHealthUpgrade;
 		}
 		else {
-			health = ShipValues3D.playerHealth;
+			health = ShipValues.playerHealth;
 		}
 
 		//Forward Speed
-		if ((myUpgrades & shipUpgrades3DBit.forwardSpeedU) != 0) {
-			forwardSpeed = ShipValues3D.playerForwardSpeedUpgrade;
+		if ((myUpgrades & shipUpgradesBit.forwardSpeedU) != 0) {
+			forwardSpeed = ShipValues.playerForwardSpeedUpgrade;
 		}
 		else {
-			forwardSpeed = ShipValues3D.playerForwardSpeed;
+			forwardSpeed = ShipValues.playerForwardSpeed;
 		}
 
 		//Backward Speed
-		if ((myUpgrades & shipUpgrades3DBit.backwardSpeedU) != 0) {
-			backwardSpeed = ShipValues3D.playerBackwardSpeedUpgrade;
+		if ((myUpgrades & shipUpgradesBit.backwardSpeedU) != 0) {
+			backwardSpeed = ShipValues.playerBackwardSpeedUpgrade;
 		}
 		else {
-			backwardSpeed = ShipValues3D.playerBackwardSpeed;
+			backwardSpeed = ShipValues.playerBackwardSpeed;
 		}
 
 		//Turn Speed
-		if ((myUpgrades & shipUpgrades3DBit.turnSpeedDegreesU) != 0) {
-			turnSpeedDegrees = ShipValues3D.playerTurnSpeedDegreesUpgrade;
+		if ((myUpgrades & shipUpgradesBit.turnSpeedDegreesU) != 0) {
+			turnSpeedDegrees = ShipValues.playerTurnSpeedDegreesUpgrade;
 		}
 		else {
-			turnSpeedDegrees = ShipValues3D.playerTurnSpeedDegrees;
+			turnSpeedDegrees = ShipValues.playerTurnSpeedDegrees;
 		}
 
 		//Missile Travel Speed
-		if ((myUpgrades & shipUpgrades3DBit.missileSpeedU) != 0) {
-			missileSpeed = ShipValues3D.playerMissileSpeedUpgrade;
+		if ((myUpgrades & shipUpgradesBit.missileSpeedU) != 0) {
+			missileSpeed = ShipValues.playerMissileSpeedUpgrade;
 		}
 		else {
-			missileSpeed = ShipValues3D.playerMissileSpeed;
+			missileSpeed = ShipValues.playerMissileSpeed;
 		}
 
 		//Missile Damage
-		if ((myUpgrades & shipUpgrades3DBit.missileDamageU) != 0) {
-			missileDamage = ShipValues3D.playerMissileDamageUpgrade;
+		if ((myUpgrades & shipUpgradesBit.missileDamageU) != 0) {
+			missileDamage = ShipValues.playerMissileDamageUpgrade;
 		}
 		else {
-			missileDamage = ShipValues3D.playerMissileDamage;
+			missileDamage = ShipValues.playerMissileDamage;
 		}
 
 		//Missile Shot Delay
-		if ((myUpgrades & shipUpgrades3DBit.missileShotDelayU) != 0) {
-			missileShotDelay = ShipValues3D.playerMissileShotDelayUpgrade;
+		if ((myUpgrades & shipUpgradesBit.missileShotDelayU) != 0) {
+			missileShotDelay = ShipValues.playerMissileShotDelayUpgrade;
 		}
 		else {
-			missileShotDelay = ShipValues3D.playerMissileShotDelay;
+			missileShotDelay = ShipValues.playerMissileShotDelay;
 		}
 
 		//Missile Range Distance
-		if ((myUpgrades & shipUpgrades3DBit.missileRangeU) != 0) {
-			missileRange = ShipValues3D.playerMissileRangeUpgrade;
+		if ((myUpgrades & shipUpgradesBit.missileRangeU) != 0) {
+			missileRange = ShipValues.playerMissileRangeUpgrade;
 		}
 		else {
-			missileRange = ShipValues3D.playerMissileRange;
+			missileRange = ShipValues.playerMissileRange;
 		}
 
 			
@@ -227,39 +227,39 @@ public class PlayerShip3D : MonoBehaviour {
 
 		//Teehee
 		if (upgrade.Equals("God")) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.health);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.backwardSpeed);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.turnSpeedDegree);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileSpeed);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileDamage);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileRange);
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileShotDelay);
+			mPlayer.addPlayerUpgrade(shipUpgrades.health);
+			mPlayer.addPlayerUpgrade(shipUpgrades.forwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.backwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.turnSpeedDegree);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileDamage);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileRange);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileShotDelay);
 
 		}
 		if (upgrade.Equals(shipUpgradeCodes.healthU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.health);
+			mPlayer.addPlayerUpgrade(shipUpgrades.health);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.forwardSpeedU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.forwardSpeed);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.backwardSpeedU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.backwardSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.backwardSpeed);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.turnSpeedDegreesU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.turnSpeedDegree);
+			mPlayer.addPlayerUpgrade(shipUpgrades.turnSpeedDegree);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.missileSpeedU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileSpeed);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileSpeed);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.missileDamageU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileDamage);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileDamage);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.missileShotDelayU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileShotDelay);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileShotDelay);
 		}
 		if (upgrade.Equals(shipUpgradeCodes.missileRangeU)) {
-			mPlayer.addPlayerUpgrade(shipUpgrades3D.missileRange);
+			mPlayer.addPlayerUpgrade(shipUpgrades.missileRange);
 		}
 
 	}

@@ -39,7 +39,7 @@ public class BulletScript : MonoBehaviour {
 	void Update () {
 	
 		//always move forward on the map
-		transform.position += travelSpeed * Time.deltaTime * transform.up;
+		transform.position -= travelSpeed * Time.deltaTime * transform.forward;
 
 		//until it fizzles out of course from traveling too far
 		if ((transform.position - startPos).magnitude >= range) {
@@ -48,13 +48,15 @@ public class BulletScript : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter2D(Collision2D other) {
+	void OnCollisionEnter(Collision other) {
+		print(other.gameObject.name);
+
 		if (origin != null) {
-			if (other.gameObject.name.Contains("enemy")) {
+			if (other.gameObject.name.Contains("Enemy")) {
 				//Destroy(other.gameObject);
 				if (other.gameObject.GetComponent<EnemyShip>().takeDamage(damage)) {
 					origin.addScore(50); //Just assume it's never the boss. TODO TODO TODO
-					Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+					Instantiate(explosionPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 				}
 				Destroy(this.gameObject);
 			}
