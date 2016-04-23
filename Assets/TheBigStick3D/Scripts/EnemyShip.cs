@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using RAIN.BehaviorTrees;
+using RAIN.Core;
+using RAIN.Minds;
+using UnityEditor;
 
 /**
  * An enemy ship. Like the player ship, but controlled by AI.
@@ -27,6 +31,11 @@ public class EnemyShip : MonoBehaviour {
 		missileShotDelay = ShipValues.enemyMissileShotDelay;
 		missileRange = ShipValues.enemyMissileRange;
 
+		AIRig rig = GetComponentInChildren<RAIN.Core.AIRig>();
+		if (rig == null) return;
+		BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset");
+		BasicMind mind = (BasicMind)rig.AI.Mind;
+		mind.SetBehavior(tree, new List<BTAssetBinding>());
 	}
 	
 	// Update is called once per frame
