@@ -265,7 +265,7 @@ public class PlayerShip3D : MonoBehaviour {
 	}
 
 	private void backToGame(MessageCharacter data) {
-		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_1dpad_2button;
+		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_1dpad_1button;
 	}
 
 	private void gotoUpgrades(MessageCharacter data) {
