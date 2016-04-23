@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /**
  * This class keeps track of all players that have ever been connected.
@@ -17,6 +18,9 @@ public class GameMasterScript : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject explodePrefab;
+
+	[SerializeField]
+	private Text scoreboard;
 
 
 
@@ -119,6 +123,16 @@ public class GameMasterScript : MonoBehaviour {
 
 		//GUI.Label(new Rect(20, 20, 500, 100), "There are " + allPlayers.Count + " players registered");
 
+		allPlayers.Sort(delegate(MuseumPlayer m1, MuseumPlayer m2)
+        {
+			return m2.getScore().CompareTo(m1.getScore());
+		});
+
+		scoreboard.text = "";
+		foreach(MuseumPlayer player in allPlayers)
+		{
+			scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
+		}
 	}
 
 }
