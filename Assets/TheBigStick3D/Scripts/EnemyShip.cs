@@ -15,6 +15,8 @@ public class EnemyShip : MonoBehaviour {
 	private float missileShotDelay;
 	private int missileRange;
 
+	private EnemySpawning enemySpawner;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -26,6 +28,8 @@ public class EnemyShip : MonoBehaviour {
 		missileDamage = ShipValues.enemyMissileDamage;
 		missileShotDelay = ShipValues.enemyMissileShotDelay;
 		missileRange = ShipValues.enemyMissileRange;
+
+		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
 
 	}
 	
@@ -39,6 +43,7 @@ public class EnemyShip : MonoBehaviour {
 		health -= damage;
 		if (health <= 0) {
 			Destroy(this.gameObject);
+			enemySpawner.spawnEnemy(); //spawn a new enemy
 			return true;
 		}
 		return false;
