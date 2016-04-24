@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480774}
-  - 95: {fileID: 9521708}
   - 212: {fileID: 21282932}
   - 114: {fileID: 11440384}
   - 111: {fileID: 11179750}
+  - 95: {fileID: 9521708}
   m_Layer: 0
   m_Name: ShipExplosion
   m_TagString: Untagged

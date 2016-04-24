@@ -4,12 +4,14 @@ using System.Collections;
 public class ControlPoint : MonoBehaviour {
 
 	float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
-	Material mat;
+	MeshRenderer rend;
+	SpriteRenderer spriteRend;
 	// Use this for initialization
 	void Start () {
 
 		influence = 0; //start nuetral. 
-		mat = GetComponent<MeshRenderer>().material;
+		rend = GetComponent<MeshRenderer>();
+		spriteRend = GetComponentInChildren<SpriteRenderer>();
 
 		//Only check every .25 seconds
 		InvokeRepeating("updateInfluence", 0, 0.25F);
@@ -36,7 +38,11 @@ public class ControlPoint : MonoBehaviour {
 				totalVal++;
 			}
 		}
-		if (totalVal == 0 && influence < 255) totalVal = .25F;
+
+		//if there are no ships, slowly lose influence
+		if (hitColliders.Length == 0 && influence < 0) totalVal = .25F;
+		else if (hitColliders.Length == 0 && influence > 0) totalVal = -.25F;
+
 		//decide updated influence based off of player vs. ship counts
 		influence += totalVal;
 
@@ -45,13 +51,14 @@ public class ControlPoint : MonoBehaviour {
 
 
 		//update the sphere color to show who has the most influence
-		Color matColor = mat.color;
-		//if (influence <= 0) matColor.r = 255;
-		//else matColor.r = Mathf.Lerp(255, 0, influence/100);
-		//if (influenc) 
+		if (influence <= 0) rend.material.color = Color.Lerp(Color.white, Color.red, -influence/100);
+		else rend.material.color = Color.Lerp(Color.white, Color.blue, influence/100);
 
-		print(matColor.r);
-		mat.color = matColor;
+		//update the circle ring to be a solid color if one team has total control
+		if (influence >= 40) spriteRend.color = Color.blue;
+		else if (influence <= -40) spriteRend.color = Color.red;
+		else spriteRend.color = Color.white;
+
 
 
 	}
