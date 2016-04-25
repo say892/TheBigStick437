@@ -3,18 +3,26 @@ using System.Collections;
 
 public class ControlPoint : MonoBehaviour {
 
-	float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
-	MeshRenderer rend;
-	SpriteRenderer spriteRend;
-	// Use this for initialization
-	void Start () {
+	private float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
+	public MeshRenderer rend;
+	private SpriteRenderer spriteRend;
 
+	private bool active;
+
+	void Awake() {
 		influence = 0; //start nuetral. 
 		rend = GetComponent<MeshRenderer>();
 		spriteRend = GetComponentInChildren<SpriteRenderer>();
+		active = false;
+		rend.enabled = false;
+		spriteRend.enabled = false;
+	}
+	// Use this for initialization
+	void Start () {
+
 
 		//Only check every .25 seconds
-		InvokeRepeating("updateInfluence", 0, 0.25F);
+		//InvokeRepeating("updateInfluence", 0, 0.25F);
 		//It will take 25 seconds for one player themselves to get to 100 influence assuming no enemies nearby...
 	}
 
@@ -63,6 +71,32 @@ public class ControlPoint : MonoBehaviour {
 
 	}
 
+	public bool isActive() {
+		return active;
+	}
+
+	public float getInfluence() {
+		return influence;
+	}
+
+	public void setActive() {
+		active = true;
+		rend.enabled = true;
+		spriteRend.enabled = true;
+		InvokeRepeating("updateInfluence", 0, 0.25F);
+	}
+
+	public void setInactive() {
+		active = false;
+		rend.enabled = false;
+		spriteRend.enabled = false;
+		CancelInvoke();
+	}
+
+	public void setInfluence(float influence) {
+		this.influence = influence;
+	}
+
 	void OnDrawGizmosSelected() {
 		//Gizmos.DrawSphere(transform.position, 10); //ignore. Used for testing.
 	}
@@ -71,3 +105,5 @@ public class ControlPoint : MonoBehaviour {
 		//GUI.Label(new Rect(20, 100, 100, 200), "Control point influence: " + influence);
 	}
 }
+
+

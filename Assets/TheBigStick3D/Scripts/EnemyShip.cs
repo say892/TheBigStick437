@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;   
+﻿using UnityEngine;   
 using System.Collections.Generic;
 using RAIN.BehaviorTrees;
 using RAIN.Core;
@@ -21,6 +21,8 @@ public class EnemyShip : MonoBehaviour {
 
 	private EnemySpawning enemySpawner;
 
+	private ControlPoints controlPoints;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -34,6 +36,8 @@ public class EnemyShip : MonoBehaviour {
 		missileRange = ShipValues.enemyMissileRange;
 
 		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
+
+		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
 
 		AIRig rig = GetComponentInChildren<AIRig>(); 
 		if (rig == null) return; 

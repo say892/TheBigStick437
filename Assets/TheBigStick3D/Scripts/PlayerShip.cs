@@ -41,6 +41,9 @@ public class PlayerShip : MonoBehaviour {
 
 	private EnemySpawning enemySpawner;
 
+	private ControlPoints controlPoints;
+
+
 	// Use this for initialization
 	void Start () {
 	 
@@ -50,6 +53,7 @@ public class PlayerShip : MonoBehaviour {
 
 		GameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMasterScript>();
 		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
+		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
 
@@ -60,7 +64,8 @@ public class PlayerShip : MonoBehaviour {
 
 		shootTimer = 0;
 
-		transform.position = GameMaster.getSpawnPos();
+		//transform.position = GameMaster.getSpawnPos();
+		transform.position = controlPoints.getPlayerSpawnPos();
 
 		enemySpawner.spawnEnemy(); //spawn 2 enemies at the start of every player
 		enemySpawner.spawnEnemy();

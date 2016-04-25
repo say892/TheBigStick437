@@ -9,15 +9,22 @@ public class EnemySpawning : MonoBehaviour {
 	[SerializeField]
 	private GameObject enemyShipPrefab;
 
-	[SerializeField]
 	private Transform USSIowaLocation;
+
+	[SerializeField]
+	private GameObject controlPointsObj;
+
+	private ControlPoints controlPointsScr;
+
 
 	// Use this for initialization
 	void Start () {
 		StartCoroutine("newEnemy");
 		StartCoroutine("newEnemy");
 
-		USSIowaLocation = GameObject.Find("USS Iowa").transform;
+		USSIowaLocation = GameObject.Find("USS Iowa PlayerBase").transform;
+
+		controlPointsScr = controlPointsObj.GetComponent<ControlPoints>();
 
 	}
 	
@@ -36,7 +43,9 @@ public class EnemySpawning : MonoBehaviour {
 		//yield return new WaitForSeconds(DELAYFORENEMYRESPAWN);
 
 		//PICK THE RIGHT POSITION TO SPAWN
-		Instantiate(enemyShipPrefab, Vector3.zero, Quaternion.identity);
+		Vector3 spawnPos = controlPointsScr.getEnemySpawnPos();
+
+		Instantiate(enemyShipPrefab, spawnPos, Quaternion.identity);
 	}
 
 
