@@ -47,11 +47,20 @@ public class ControlPoints : MonoBehaviour {
 		allPoints[(int)ControlPointNames.Tokyo].setActive();
 		allPoints[(int)ControlPointNames.Tokyo].setInfluence(-100);
 
+
+		//turn other points on
+		allPoints[(int)ControlPointNames.Guadacanal].setActive();
+		allPoints[(int)ControlPointNames.Tahiti].setActive();
+		allPoints[(int)ControlPointNames.Aleutains].setActive();
+		allPoints[(int)ControlPointNames.Hawaii].setActive();
+		allPoints[(int)ControlPointNames.Guam].setActive();
+		allPoints[(int)ControlPointNames.WakeIsland].setActive();
+
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 
 		/*Works randomly
 		if (Input.GetKeyDown(KeyCode.Q)) {
@@ -71,7 +80,6 @@ public class ControlPoints : MonoBehaviour {
 		foreach (ControlPoint p in allPoints) {
 			if (p.isActive() && p.getInfluence() < -40) {
 				validPoints.Add(p);
-				print(p.name);
 			}
 		}
 
