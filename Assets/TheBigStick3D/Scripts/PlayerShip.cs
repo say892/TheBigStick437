@@ -57,6 +57,27 @@ public class PlayerShip : MonoBehaviour {
 
 	private ControlPoints controlPoints;
 
+	private GUIStyle greenStyle;
+	private GUIStyle redStyle;
+	private int originalHealth;
+
+	void Awake()
+	{
+		// Health Bar stuff
+		Texture2D green = new Texture2D(1, 1);
+		green.SetPixel(1, 1, Color.green);
+		green.wrapMode = TextureWrapMode.Repeat;
+		green.Apply();
+		greenStyle = new GUIStyle();
+		greenStyle.normal.background = green;
+
+		Texture2D red = new Texture2D(1, 1);
+		red.SetPixel(1, 1, Color.red);
+		red.wrapMode = TextureWrapMode.Repeat;
+		red.Apply();
+		redStyle = new GUIStyle();
+		redStyle.normal.background = red;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -120,9 +141,12 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
-	void onGUI()
+	void OnGUI()
 	{
-
+		Vector3 vec = transform.position;
+		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20, 4), "", redStyle);
+		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20 * health / originalHealth, 4), "", greenStyle);
 	}
 
 	void doUserInput() {
@@ -176,6 +200,7 @@ public class PlayerShip : MonoBehaviour {
 		//Health
 		if ((myUpgrades & shipUpgradesBit.healthU) != 0) {
 			health = ShipValues.playerHealthUpgrade;
+			originalHealth = health;
 		}
 		else {
 			health = ShipValues.playerHealth;
