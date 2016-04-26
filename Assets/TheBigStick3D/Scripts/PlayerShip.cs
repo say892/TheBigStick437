@@ -37,6 +37,10 @@ public class PlayerShip : MonoBehaviour {
 
 	[SerializeField]
 	private Material upgradePlayerText;
+	
+	[SerializeField]
+	private Canvas canvas;
+
 
 	private float shootTimer;
 
@@ -116,7 +120,10 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
+	void onGUI()
+	{
 
+	}
 
 	void doUserInput() {
 

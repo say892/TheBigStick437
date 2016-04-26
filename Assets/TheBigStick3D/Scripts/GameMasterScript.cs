@@ -40,34 +40,11 @@ public class GameMasterScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		allPlayers = new List<MuseumPlayer>();
-
-		//allPlayers.Add(new MuseumPlayer3D());
-		//This is how we'll have to add upgrades
-		//allPlayers[0].addPlayerUpgrade(shipUpgrades3D.health);
-		//And this is how we check if the player has the upgrade. Returns 1 if they do.
-		//allPlayers[0].getPlayerUpgrades() & shipUpgrades3DBit.healthU;
-	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		//Cheat!
-		/*
-		if (Input.GetKeyDown(KeyCode.L)) {
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.health);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.forwardSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.backwardSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.turnSpeedDegree);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.missileSpeed);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.missileDamage);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.missileRange);
-			allPlayers[0].addPlayerUpgrade(shipUpgrades3D.missileShotDelay);
-		}
-
-		if (Input.GetKeyDown(KeyCode.P)) {
-			Instantiate(explodePrefab, Vector3.zero, Quaternion.identity);
-		}*/
 	}
 
 	public bool containsPlayer(HFTGamepad p) {
@@ -121,18 +98,16 @@ public class GameMasterScript : MonoBehaviour {
 
 	void OnGUI() {
 
-		//GUI.Label(new Rect(20, 20, 500, 100), "There are " + allPlayers.Count + " players registered");
+		allPlayers.Sort(delegate(MuseumPlayer m1, MuseumPlayer m2)
+        {
+			return m2.getScore().CompareTo(m1.getScore());
+		});
 
-		//allPlayers.Sort(delegate(MuseumPlayer m1, MuseumPlayer m2)
-  //      {
-		//	return m2.getScore().CompareTo(m1.getScore());
-		//});
-
-		//scoreboard.text = "";
-		//foreach(MuseumPlayer player in allPlayers)
-		//{
-		//	scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
-		//}
+		scoreboard.text = "";
+		foreach(MuseumPlayer player in allPlayers)
+		{
+			scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
+		}
 	}
 
 }

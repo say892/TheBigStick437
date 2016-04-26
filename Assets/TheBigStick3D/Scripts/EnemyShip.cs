@@ -11,6 +11,7 @@ using UnityEditor;
 public class EnemyShip : MonoBehaviour {
 
 	public GameObject bulletPrefab;
+	public Canvas canvas;
 
 	private int health;
 	private float forwardSpeed;
