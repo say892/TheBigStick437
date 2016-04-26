@@ -3,14 +3,26 @@ using System.Collections;
 
 public class ControlPoint : MonoBehaviour {
 
-	int influence; //the status of a point. -100 for full enemy control, 100 for full player control.
+	private float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
+	public MeshRenderer rend;
+	private SpriteRenderer spriteRend;
 
+	private bool active;
+
+	void Awake() {
+		influence = 0; //start nuetral. 
+		rend = GetComponent<MeshRenderer>();
+		spriteRend = GetComponentInChildren<SpriteRenderer>();
+		active = false;
+		rend.enabled = false;
+		spriteRend.enabled = false;
+	}
 	// Use this for initialization
 	void Start () {
-		influence = 0; //start nuetral. 
+
 
 		//Only check every .25 seconds
-		InvokeRepeating("updateInfluence", 0, 0.25F);
+		//InvokeRepeating("updateInfluence", 0, 0.25F);
 		//It will take 25 seconds for one player themselves to get to 100 influence assuming no enemies nearby...
 	}
 
@@ -23,7 +35,7 @@ public class ControlPoint : MonoBehaviour {
 		//You can use Transform.GetChild(0).transform.localScale.x to get this value if we want different sized zones.
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10); //gets all objects within range
 
-		int totalVal = 0;
+		float totalVal = 0;
 
 		//check to see if they are ships
 		foreach(Collider c in hitColliders) {
@@ -35,17 +47,63 @@ public class ControlPoint : MonoBehaviour {
 			}
 		}
 
+		//if there are no ships, slowly lose influence
+		if (hitColliders.Length == 0 && influence < 0) totalVal = .25F;
+		else if (hitColliders.Length == 0 && influence > 0) totalVal = -.25F;
+
 		//decide updated influence based off of player vs. ship counts
 		influence += totalVal;
+
 		//clamp that shiddy shiz
 		influence = Mathf.Clamp(influence, -100, 100);
+
+
+		//update the sphere color to show who has the most influence
+		if (influence <= 0) rend.material.color = Color.Lerp(Color.white, Color.red, -influence/100);
+		else rend.material.color = Color.Lerp(Color.white, Color.blue, influence/100);
+
+		//update the circle ring to be a solid color if one team has total control
+		if (influence >= 40) spriteRend.color = Color.blue;
+		else if (influence <= -40) spriteRend.color = Color.red;
+		else spriteRend.color = Color.white;
+
+
+
+	}
+
+	public bool isActive() {
+		return active;
+	}
+
+	public float getInfluence() {
+		return influence;
+	}
+
+	public void setActive() {
+		active = true;
+		rend.enabled = true;
+		spriteRend.enabled = true;
+		InvokeRepeating("updateInfluence", 0, 0.25F);
+	}
+
+	public void setInactive() {
+		active = false;
+		rend.enabled = false;
+		spriteRend.enabled = false;
+		CancelInvoke();
+	}
+
+	public void setInfluence(float influence) {
+		this.influence = influence;
 	}
 
 	void OnDrawGizmosSelected() {
-		Gizmos.DrawSphere(transform.position, 10); //ignore. Used for testing.
+		//Gizmos.DrawSphere(transform.position, 10); //ignore. Used for testing.
 	}
 
 	void OnGUI() {
 		//GUI.Label(new Rect(20, 100, 100, 200), "Control point influence: " + influence);
 	}
 }
+
+

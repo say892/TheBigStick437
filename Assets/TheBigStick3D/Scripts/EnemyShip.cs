@@ -1,10 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;   
+using System.Collections.Generic;
+using RAIN.BehaviorTrees;
+using RAIN.Core;
+using RAIN.Minds;
+using UnityEditor;
 
 /**
  * An enemy ship. Like the player ship, but controlled by AI.
  **/
 public class EnemyShip : MonoBehaviour {
+
+	public GameObject bulletPrefab;
 
 	private int health;
 	private float forwardSpeed;
@@ -14,6 +20,11 @@ public class EnemyShip : MonoBehaviour {
 	private int missileDamage;
 	private float missileShotDelay;
 	private int missileRange;
+	private float shootTimer = 0;
+
+	private EnemySpawning enemySpawner;
+
+	private ControlPoints controlPoints;
 
 	// Use this for initialization
 	void Start () {
@@ -27,11 +38,22 @@ public class EnemyShip : MonoBehaviour {
 		missileShotDelay = ShipValues.enemyMissileShotDelay;
 		missileRange = ShipValues.enemyMissileRange;
 
+		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
+
+		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
+
+		AIRig rig = GetComponentInChildren<AIRig>(); 
+		if (rig == null) return; 
+		BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset"); 
+		BasicMind mind = (BasicMind)rig.AI.Mind; 
+		mind.SetBehavior(tree, new List<BTAssetBinding>()); 
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
+		shootTimer += Time.deltaTime;
 	}
 
 	//get hit son. Returns true if sunk.
@@ -39,6 +61,7 @@ public class EnemyShip : MonoBehaviour {
 		health -= damage;
 		if (health <= 0) {
 			Destroy(this.gameObject);
+			enemySpawner.spawnEnemy(); //spawn a new enemy
 			return true;
 		}
 		return false;
@@ -47,5 +70,16 @@ public class EnemyShip : MonoBehaviour {
 	void OnGUI() {
 
 		//No idea how I do a health bar.
+	}
+
+	void Shoot()
+	{
+		if (shootTimer > missileShotDelay)
+		{
+			shootTimer = 0;
+			//create the bullet and then set the needed information in the new bullet
+			GameObject newBullet = (GameObject)Instantiate(bulletPrefab, transform.FindChild("BulletSpawnPos").position, transform.rotation);
+			newBullet.GetComponent<BulletScript>().setBullet(missileSpeed, missileDamage, missileRange, null);
+		}
 	}
 }

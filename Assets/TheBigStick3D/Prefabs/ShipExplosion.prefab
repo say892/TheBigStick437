@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480774}
-  - 95: {fileID: 9521708}
   - 212: {fileID: 21282932}
   - 114: {fileID: 11440384}
   - 111: {fileID: 11179750}
+  - 95: {fileID: 9521708}
   m_Layer: 0
   m_Name: ShipExplosion
   m_TagString: Untagged
@@ -73,7 +73,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9cf0ad06980b843ad509e979712008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
 --- !u!212 &21282932
 SpriteRenderer:
   m_ObjectHideFlags: 1

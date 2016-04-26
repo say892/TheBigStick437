@@ -123,16 +123,16 @@ public class GameMasterScript : MonoBehaviour {
 
 		//GUI.Label(new Rect(20, 20, 500, 100), "There are " + allPlayers.Count + " players registered");
 
-		allPlayers.Sort(delegate(MuseumPlayer m1, MuseumPlayer m2)
-        {
-			return m2.getScore().CompareTo(m1.getScore());
-		});
+		//allPlayers.Sort(delegate(MuseumPlayer m1, MuseumPlayer m2)
+  //      {
+		//	return m2.getScore().CompareTo(m1.getScore());
+		//});
 
-		scoreboard.text = "";
-		foreach(MuseumPlayer player in allPlayers)
-		{
-			scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
-		}
+		//scoreboard.text = "";
+		//foreach(MuseumPlayer player in allPlayers)
+		//{
+		//	scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
+		//}
 	}
 
 }

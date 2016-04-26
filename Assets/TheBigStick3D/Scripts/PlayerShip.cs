@@ -49,6 +49,11 @@ public class PlayerShip : MonoBehaviour {
 	private float missileShotDelay;
 	private int missileRange;
 
+	private EnemySpawning enemySpawner;
+
+	private ControlPoints controlPoints;
+
+
 	// Use this for initialization
 	void Start () {
 	 
@@ -57,6 +62,8 @@ public class PlayerShip : MonoBehaviour {
 
 
 		GameMaster = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMasterScript>();
+		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
+		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
 
@@ -67,7 +74,11 @@ public class PlayerShip : MonoBehaviour {
 
 		shootTimer = 0;
 
-		transform.position = GameMaster.getSpawnPos();
+		//transform.position = GameMaster.getSpawnPos();
+		transform.position = controlPoints.getPlayerSpawnPos();
+
+		enemySpawner.spawnEnemy(); //spawn 2 enemies at the start of every player
+		enemySpawner.spawnEnemy();
 	}
 
 	//called when the player is spawned
@@ -222,6 +233,7 @@ public class PlayerShip : MonoBehaviour {
 
 	//kick the player from the game if they leave their phone
 	private void removePlayer(object sender, System.EventArgs e) {
+		enemySpawner.deleteFarthestEnemies();
 		Destroy(gameObject);
 	}
 
@@ -276,19 +288,4 @@ public class PlayerShip : MonoBehaviour {
 		ToController m = new ToController(mPlayer.getPlayerUpgrades().ToString());
 		mNetPlayer.SendCmd("showUpgrades", m);
 	}
-
-	void OnGUI() {
-		/*
-		string thing = 
-			health +  "\n" +
-			forwardSpeed +  "\n" +
-			backwardSpeed +  "\n" +
-			turnSpeedDegrees +  "\n" +
-			missileSpeed +  "\n" +
-			missileDamage +  "\n" +
-			missileShotDelay +  "\n" +
-			missileRange +  "\n";
-		GUI.Label(new Rect(20, 50, 200, 1000), thing);*/
-	}
-
 }
