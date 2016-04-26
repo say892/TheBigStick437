@@ -15,6 +15,16 @@ public class PlayerShip : MonoBehaviour {
 		public string upgradeName = "";
 	}
 
+	private class ToController : MessageCmdData
+	{
+		public string upgradeName = "";
+		public ToController(string upgrade)
+		{
+			upgradeName = upgrade;
+		}
+	}
+
+
 	private HFTInput mInput;
 	private HFTGamepad mGamepad;
 	private MuseumPlayer mPlayer;
@@ -75,7 +85,6 @@ public class PlayerShip : MonoBehaviour {
 
 		//the player wants to try to enter an upgrade.
 		mNetPlayer.RegisterCmdHandler<MessageCharacter>("goToUpgrade", gotoUpgrades);
-
 	}
 
 	
@@ -209,9 +218,6 @@ public class PlayerShip : MonoBehaviour {
 		else {
 			missileRange = ShipValues.playerMissileRange;
 		}
-
-			
-
 	}
 
 	//kick the player from the game if they leave their phone
@@ -223,8 +229,6 @@ public class PlayerShip : MonoBehaviour {
 	private void onUpgrade(MessageCharacter data) {
 		string upgrade = data.upgradeName;
 
-		//print(upgrade + "");
-
 		//Teehee
 		if (upgrade.Equals("God")) {
 			mPlayer.addPlayerUpgrade(shipUpgrades.health);
@@ -235,7 +239,6 @@ public class PlayerShip : MonoBehaviour {
 			mPlayer.addPlayerUpgrade(shipUpgrades.missileDamage);
 			mPlayer.addPlayerUpgrade(shipUpgrades.missileRange);
 			mPlayer.addPlayerUpgrade(shipUpgrades.missileShotDelay);
-
 		}
 		if (upgrade.Equals(shipUpgradeCodes.healthU)) {
 			mPlayer.addPlayerUpgrade(shipUpgrades.health);
@@ -270,11 +273,9 @@ public class PlayerShip : MonoBehaviour {
 
 	private void gotoUpgrades(MessageCharacter data) {
 		mGamepad.controllerOptions.controllerType = HFTGamepad.ControllerType.c_upgrade;
+		ToController m = new ToController(mPlayer.getPlayerUpgrades().ToString());
+		mNetPlayer.SendCmd("showUpgrades", m);
 	}
-
-
-
-
 
 	void OnGUI() {
 		/*

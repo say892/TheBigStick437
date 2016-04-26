@@ -51,7 +51,7 @@ requirejs([
     touch,
     chroma /*,
     GyroNorm */) {
-
+		
   var $ = document.getElementById.bind(document);
   var globals = {
     debug: false,
@@ -373,14 +373,14 @@ requirejs([
     
 	//get input from player
 	var upgradeName = document.getElementById("upgradeCode");
-	console.log("Lego");
 	//send input to game
-	client.sendCmd('upgrade', { upgradeName : upgradeName.value});
+	client.sendCmd('upgrade', { upgradeName : upgradeName.value });
 	
 	//clear input after they enter an upgrade
 	upgradeName.value = "";
 	
 	//TODO get a message back from the game saying successful upgrade
+	client.sendCmd('goToUpgrade');
   }
   
   function returntoGame() {
@@ -391,6 +391,31 @@ requirejs([
   function gotoUpgrades() {
 	//updates the controller view to be the upgrade screen
 	client.sendCmd('goToUpgrade');
+  }
+  
+  	/*public static int healthU = 0x00000001;
+	public static int forwardSpeedU = 0x00000002;
+	public static int backwardSpeedU = 0x00000004;
+	public static int turnSpeedDegreesU = 0x00000008;
+	public static int missileSpeedU = 0x00000010;
+	public static int missileDamageU = 0x00000020;
+	public static int missileShotDelayU = 0x00000040;
+	public static int missileRangeU = 0x00000080;*/
+  client.addEventListener('showUpgrades', showUpgrades);
+  function showUpgrades(data) {
+	var upgrades = data.upgradeName;
+	var titles = ["Health ", "ForwSpeed ", "BackSpeed ", "TurnSpeed ", "MissileSpeed ", "MissileDam ", "ShotDelay ", "MissileRange "];
+	var upString = "";
+	for (var i = 0; i < 8; i++)
+	{
+		upString += titles[i];
+		if(upgrades & Math.pow(2,i))
+			upString += '1';
+		else
+			upString += '0';
+		upString += " // ";
+	}
+	$("upgrades").innerHTML = upString;
   }
   
   
