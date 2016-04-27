@@ -58,15 +58,18 @@ public class BulletScript : MonoBehaviour {
 					origin.addScore(50); //Just assume it's never the boss. TODO TODO TODO
 					Instantiate(explosionPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
 				}
-				Destroy(this.gameObject);
+				//Destroy(this.gameObject);
 			}
 		}
 		else {
 			if (other.gameObject.name.Contains("player")) {
 				//Destroy(other.gameObject);
 				other.gameObject.GetComponent<PlayerShip>().takeDamage(damage);
-				Destroy(this.gameObject);
+				//Destroy(this.gameObject);
 			}
+		}
+		if (!other.gameObject.name.Equals("Map")) {
+			Destroy(this.gameObject); //break on any other hit
 		}
 
 

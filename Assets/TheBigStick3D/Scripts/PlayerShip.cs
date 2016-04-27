@@ -204,6 +204,7 @@ public class PlayerShip : MonoBehaviour {
 		}
 		else {
 			health = ShipValues.playerHealth;
+			originalHealth = health;
 		}
 
 		//Forward Speed
