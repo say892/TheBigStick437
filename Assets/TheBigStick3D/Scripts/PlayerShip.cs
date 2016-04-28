@@ -202,7 +202,7 @@ public class PlayerShip : MonoBehaviour {
 			checkUpgrades(); //use this to reset the health
 
 			GetComponent<MeshRenderer>().enabled = false;
-			GetComponent<BoxCollider>().enabled = false;
+			//GetComponent<BoxCollider>().enabled = false;
 			transform.position = controlPoints.getPlayerSpawnPos();
 			StartCoroutine("respawnPlayer");
 		}
@@ -295,7 +295,7 @@ public class PlayerShip : MonoBehaviour {
 		
 		yield return new WaitForSeconds(2);
 		GetComponent<MeshRenderer>().enabled = true;
-		GetComponent<BoxCollider>().enabled = true;
+		//GetComponent<BoxCollider>().enabled = true;
 		checkUpgrades(); //REALLY make sure they have their health back (they didn't once)
 		transform.position = controlPoints.getPlayerSpawnPos();
 
