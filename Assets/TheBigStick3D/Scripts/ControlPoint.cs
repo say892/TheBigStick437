@@ -83,7 +83,7 @@ public class ControlPoint : MonoBehaviour {
 				awardedPoints = true;
 				foreach(Collider c in hitColliders) {
 					if(c.name.Contains("Player")) {
-						c.GetComponent<PlayerShip>().addScore(500);
+						c.GetComponent<PlayerShip>().addScore(250);
 					}
 				}
 			}

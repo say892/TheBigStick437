@@ -196,8 +196,8 @@ svg, img {
 .layout-1dpad-1button #upgrade   { display: none; }
 .layout-1dpad-1button #upgradeButtonDiv {
 position:absolute;
-left:90px;
-top:65px;
+left:0px;
+top:0px;
 }
 
 
