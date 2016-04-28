@@ -10,6 +10,8 @@ public class ControlPoint : MonoBehaviour {
 
 	private bool active;
 
+	private bool awardedPoints;
+
 	void Awake() {
 		influence = 0; //start nuetral. 
 		rend = GetComponent<MeshRenderer>();
@@ -17,6 +19,8 @@ public class ControlPoint : MonoBehaviour {
 		active = false;
 		rend.enabled = false;
 		spriteRend.enabled = false;
+		awardedPoints = false;
+
 	}
 	// Use this for initialization
 	void Start () {
@@ -72,18 +76,29 @@ public class ControlPoint : MonoBehaviour {
 		//else spriteRend.material.color = Color.Lerp(Color.white, Color.blue, influence/100);
 
 		//update the circle ring to be a solid color if one team has total control
-		if (influence >= 40) spriteRend.color = Color.blue;
-		else if (influence <= -40) spriteRend.color = Color.red;
-		else spriteRend.color = Color.white;
-
-
-		if ((int)influence == 40 && totalVal > 0) {
-			foreach(Collider c in hitColliders) {
-				if(c.name.Contains("Player")) {
-					c.GetComponent<PlayerShip>().addScore(500);
+		if (influence >= 40)
+		{
+			spriteRend.color = Color.blue;
+			if (!awardedPoints) {
+				awardedPoints = true;
+				foreach(Collider c in hitColliders) {
+					if(c.name.Contains("Player")) {
+						c.GetComponent<PlayerShip>().addScore(500);
+					}
 				}
 			}
 		}
+		else if (influence <= -40) spriteRend.color = Color.red;
+		else {
+			awardedPoints = false;
+			spriteRend.color = Color.white;
+		}
+
+
+		//if ((int)influence == 40 && totalVal > 0) {
+		//	
+	//		print("IT'S OURS BOIS " + hitColliders.Length);
+	//	}
 
 
 

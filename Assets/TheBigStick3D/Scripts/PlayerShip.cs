@@ -112,6 +112,7 @@ public class PlayerShip : MonoBehaviour {
 		mNetPlayer = spawnInfo.netPlayer;
 		// Register handler to call if the player disconnects from the game.
 		mNetPlayer.OnDisconnect += removePlayer;
+		//mNetPlayer.OnBusy += removePlayer;
 
 		//gets the players upgrade string
 		mNetPlayer.RegisterCmdHandler<MessageCharacter>("upgrade", onUpgrade);

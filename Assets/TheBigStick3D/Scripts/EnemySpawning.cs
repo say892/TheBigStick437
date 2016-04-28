@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemySpawning : MonoBehaviour {
 
 	private const int ENEMIESPERPLAYER = 2;
-	private const int DELAYFORENEMYRESPAWN = 10; //seconds
+	private const int DELAYFORENEMYRESPAWN = 3; //seconds
 
 	[SerializeField]
 	private GameObject enemyShipPrefab;
@@ -31,6 +31,7 @@ public class EnemySpawning : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
 	}
 
 	public void spawnEnemy() {
@@ -39,8 +40,8 @@ public class EnemySpawning : MonoBehaviour {
 
 	//spawns ONE enemy at a position
 	IEnumerator newEnemy() {
-		yield return new WaitForSeconds(3);
-		//yield return new WaitForSeconds(DELAYFORENEMYRESPAWN);
+		//yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(DELAYFORENEMYRESPAWN);
 
 		//PICK THE RIGHT POSITION TO SPAWN
 		Vector3 spawnPos = controlPointsScr.getEnemySpawnPos();
@@ -52,7 +53,7 @@ public class EnemySpawning : MonoBehaviour {
 	//this function will get the 2 farthest enemies from the USS Iowa and delete them.
 	public void deleteFarthestEnemies() {
 
-		GameObject[] numEnemies = GameObject.FindGameObjectsWithTag("Enemy Ship");
+		GameObject[] numEnemies = GameObject.FindGameObjectsWithTag("Enemy");
 
 		float farthestDistance = 0;
 		GameObject farthest = null;
