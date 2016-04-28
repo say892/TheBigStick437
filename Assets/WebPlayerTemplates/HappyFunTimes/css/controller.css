@@ -194,6 +194,12 @@ svg, img {
 .layout-1dpad-1button #touch    { display: none; }
 .layout-1dpad-1button #orient   { display: none; }
 .layout-1dpad-1button #upgrade   { display: none; }
+.layout-1dpad-1button #upgradeButtonDiv {
+position:absolute;
+left:90px;
+top:65px;
+}
+
 
 .layout-1dpad-2button #dpad1    { left:  70px; width: 160px; height: 160px; }
 .layout-1dpad-2button #dpad2    { display: none; }

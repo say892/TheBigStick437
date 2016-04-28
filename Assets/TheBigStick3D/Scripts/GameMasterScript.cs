@@ -106,7 +106,7 @@ public class GameMasterScript : MonoBehaviour {
 		scoreboard.text = "";
 		foreach(MuseumPlayer player in allPlayers)
 		{
-			scoreboard.text += player.getPlayer().Name + " " + player.getScore() + "\n";
+			scoreboard.text += player.getPlayer().Name + ": " + player.getScore() + "\n";
 		}
 	}
 
