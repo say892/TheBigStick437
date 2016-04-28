@@ -148,7 +148,7 @@ public class PlayerShip : MonoBehaviour {
 
 	void OnGUI()
 	{
-		if (health > 0) {
+		if (GetComponent<MeshRenderer>().enabled) {
 		//Vector3 vec = transform.position;
 			Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
 			GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20, 4), "", redStyle);
@@ -199,6 +199,10 @@ public class PlayerShip : MonoBehaviour {
 		if (health < 0) {
 			//DIE FOREVER! Or respawn, you know, whatever it comes to.
 			checkUpgrades(); //use this to reset the health
+
+			GetComponent<MeshRenderer>().enabled = false;
+			GetComponent<BoxCollider>().enabled = false;
+			transform.position = controlPoints.getPlayerSpawnPos();
 			StartCoroutine("respawnPlayer");
 		}
 	}
@@ -287,11 +291,11 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	private IEnumerator respawnPlayer() {
-		GetComponent<MeshRenderer>().enabled = false;
-		GetComponent<BoxCollider>().enabled = false;
+		
 		yield return new WaitForSeconds(2);
 		GetComponent<MeshRenderer>().enabled = true;
 		GetComponent<BoxCollider>().enabled = true;
+		checkUpgrades(); //REALLY make sure they have their health back (they didn't once)
 		transform.position = controlPoints.getPlayerSpawnPos();
 
 

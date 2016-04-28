@@ -50,9 +50,10 @@ public class ControlPoint : MonoBehaviour {
 
 		nearbyShips = (int)totalVal;
 
+		print(gameObject.name + ", " + hitColliders.Length);
 		//if there are no ships, slowly lose influence
-		if (hitColliders.Length == 1 && influence < 0) totalVal = .25F;
-		else if (hitColliders.Length == 1 && influence > 0) totalVal = -.25F;
+		if (hitColliders.Length == 0 && influence < 0) totalVal = .25F;
+		else if (hitColliders.Length == 0 && influence > 0) totalVal = -.25F;
 
 
 		//decide updated influence based off of player vs. ship counts
