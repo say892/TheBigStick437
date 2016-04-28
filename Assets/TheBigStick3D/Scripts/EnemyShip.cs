@@ -26,11 +26,21 @@ public class EnemyShip : MonoBehaviour {
 
 	private EnemySpawning enemySpawner;
 
-	private ControlPoints controlPoints;
-
 	private GUIStyle greenStyle;
 	private GUIStyle redStyle;
 	private int originalHealth;
+
+	private enum enemyStates {
+		wandering,
+		capturing,
+		attacking
+	}
+
+	private enemyStates currentState;
+
+	private ControlPoints allControlPoints;
+
+	private ControlPoint currentTarget;
 
 	void Awake()
 	{
@@ -65,13 +75,14 @@ public class EnemyShip : MonoBehaviour {
 
 		enemySpawner = GameObject.FindGameObjectWithTag("GameController").GetComponent<EnemySpawning>();
 
-		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
+		currentState = enemyStates.wandering;
+		allControlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
 
-		AIRig rig = GetComponentInChildren<AIRig>(); 
-		if (rig == null) return; 
-		BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset"); 
-		BasicMind mind = (BasicMind)rig.AI.Mind; 
-		mind.SetBehavior(tree, new List<BTAssetBinding>());
+		//AIRig rig = GetComponentInChildren<AIRig>(); 
+		//if (rig == null) return; 
+		//BTAsset tree = AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/AI/BehaviorTrees/EnemyShip.asset"); 
+		//BasicMind mind = (BasicMind)rig.AI.Mind; 
+		//mind.SetBehavior(tree, new List<BTAssetBinding>());
 
 	}
 	
@@ -79,6 +90,10 @@ public class EnemyShip : MonoBehaviour {
 	void Update ()
 	{
 		shootTimer += Time.deltaTime;
+
+		if (currentState == enemyStates.wandering) doWanderingState();
+		else if (currentState == enemyStates.capturing) doCapturingState();
+		else if (currentState == enemyStates.attacking) doChasingState();
 	}
 
 	//get hit son. Returns true if sunk.
@@ -95,7 +110,7 @@ public class EnemyShip : MonoBehaviour {
 	void OnGUI() {
 
 		//No idea how I do a health bar.
-		Vector3 vec = transform.position;
+		//Vector3 vec = transform.position;
 		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
 		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20, 4), "", redStyle);
 		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20 * health / originalHealth, 4), "", greenStyle);
@@ -108,7 +123,154 @@ public class EnemyShip : MonoBehaviour {
 			shootTimer = 0;
 			//create the bullet and then set the needed information in the new bullet
 			GameObject newBullet = (GameObject)Instantiate(bulletPrefab, transform.FindChild("BulletSpawnPos").position, transform.rotation);
-			newBullet.GetComponent<BulletScript>().setBullet(missileSpeed, missileDamage, missileRange, null);
+			newBullet.GetComponent<BulletScript>().setBullet(-missileSpeed, missileDamage, missileRange, null);
 		}
+	}
+
+	void doWanderingState() {
+
+		//I walk a lonely... sea?
+		if (currentTarget == null) {
+
+			//attempt to balance enemies shouldn't have more than 5 (still possible though)
+			if (allControlPoints.getNumEnemyPoints() <= 4) {
+
+				//if the players have an advantage, take their points
+				if (allControlPoints.getNumPlayerPoints() >= 5) {
+					currentTarget = allControlPoints.findNearestPlayerPoint(transform.position);
+				}
+				//or give them some time to come back and only go for unoccupied
+				else {
+					currentTarget = allControlPoints.findRandomNeutralPoint();
+				}
+
+			}
+			//if we're at max points let's just patrol randomly
+			else {
+				currentTarget = allControlPoints.findRandomEnemyPoint();
+			}
+
+		}
+		//do we have a heading?
+		else if (Vector3.Angle(transform.forward, currentTarget.transform.position - transform.position) > 1.0F) {
+			rotateTowardsPosition(currentTarget.transform.position);
+		}
+		//FULL STEAM AHEAD
+		else {
+			moveForward();
+		}
+
+		//ATTACK
+		GameObject nearestPlayer = findNearestPlayer(transform.position);
+		if (nearestPlayer != null) currentState = enemyStates.attacking;
+
+
+		//we have arrived
+		if (distanceToPoint(currentTarget) < 5*5) {
+			//we own this point!
+			if (currentTarget.getInfluence() < -40) {
+				currentTarget = null; //wander somewhere else
+			}
+			else {
+				//take this point
+				currentState = enemyStates.capturing;
+			}
+		}
+
+	}
+
+	void doCapturingState() {
+		if (currentTarget.getInfluence() < -60) {
+			//get a new target, you did your job solider.
+			currentTarget = null;
+			currentState = enemyStates.wandering;
+		}
+
+
+		GameObject nearestPlayer = findNearestPlayer(transform.position);
+		if (nearestPlayer != null) {
+			//ATTACK!
+			if (Vector3.Angle(transform.forward, nearestPlayer.transform.position - transform.position) > 1.0F) {
+				rotateTowardsPosition(nearestPlayer.transform.position);
+			}
+			else {
+				Shoot();
+			}
+		}
+	}
+
+
+	void doChasingState() {
+
+		GameObject nearestPlayer = findNearestPlayer(transform.position);
+		if (nearestPlayer != null) {
+			//ATTACK!
+			if (Vector3.Angle(transform.forward, nearestPlayer.transform.position - transform.position) > 1.0F) {
+				rotateTowardsPosition(nearestPlayer.transform.position);
+			}
+			else if(distanceToPlayer(nearestPlayer) > 7*7) {
+				moveForward();
+			}
+			else {
+				Shoot();
+			}
+
+			//if (distanceToPlayer(nearestPlayer) > 10) {
+				
+			//}
+
+		}
+		else {
+			currentState = enemyStates.wandering;
+		}
+
+
+
+	}
+
+
+
+	int distanceToPoint(ControlPoint p) {
+		return (int)(p.transform.position - transform.position).sqrMagnitude;
+	}
+
+	int distanceToPlayer(GameObject p) {
+		return (int)(p.transform.position - transform.position).sqrMagnitude;
+	}
+
+	void rotateTowardsPosition(Vector3 pos) {
+		Vector3 newDir = Vector3.RotateTowards(transform.forward, pos - transform.position,
+			Mathf.Deg2Rad * turnSpeedDegrees * Time.deltaTime, 0);
+		transform.rotation = Quaternion.LookRotation(newDir);
+	}
+
+	void moveForward() {
+		transform.position += transform.forward * forwardSpeed * Time.deltaTime;
+	}
+
+	GameObject findNearestPlayer(Vector3 pos) {
+
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10); //gets all objects within range
+	
+		List<GameObject> nearbyPlayers = new List<GameObject>();
+
+		//check to see if they are ships
+		foreach(Collider c in hitColliders) {
+			if(c.name.Contains("Player")) {
+				nearbyPlayers.Add(c.gameObject);
+			}
+		}
+
+		GameObject closest = null;
+		float distance = 9999999;
+		foreach(GameObject p in nearbyPlayers) {
+			float tempDist = (p.transform.position - pos).sqrMagnitude;
+			if (tempDist < distance) {
+				closest = p;
+				tempDist = distance;
+			}
+		}
+
+		return closest;
 	}
 }

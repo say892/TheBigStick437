@@ -62,7 +62,7 @@ public class BulletScript : MonoBehaviour {
 			}
 		}
 		else {
-			if (other.gameObject.name.Contains("player")) {
+			if (other.gameObject.name.Contains("Player")) {
 				//Destroy(other.gameObject);
 				other.gameObject.GetComponent<PlayerShip>().takeDamage(damage);
 				//Destroy(this.gameObject);

@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11407134}
   - 114: {fileID: 11408994}
   - 114: {fileID: 11486276}
+  - 143: {fileID: 14326452}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -163,6 +164,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 188436, guid: 58f5deaa5be501f47a3dd0ec42b044e2, type: 2}
   upgradePlayerText: {fileID: 2100000, guid: 0d1c5d5907535bd44875188b420f11bd, type: 2}
+  canvas: {fileID: 0}
+--- !u!143 &14326452
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114154}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

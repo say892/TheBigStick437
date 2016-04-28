@@ -4,6 +4,7 @@ using System.Collections;
 public class ControlPoint : MonoBehaviour {
 
 	private float influence; //the status of a point. -100 for full enemy control, 100 for full player control.
+	private int nearbyShips; //the number of ships nearby +1 for every player ship, -1 for every enemy ship. 0 if no ships/even ships around
 	private MeshRenderer rend;
 	private SpriteRenderer spriteRend;
 
@@ -47,9 +48,12 @@ public class ControlPoint : MonoBehaviour {
 			}
 		}
 
+		nearbyShips = (int)totalVal;
+
 		//if there are no ships, slowly lose influence
-		if (hitColliders.Length == 0 && influence < 0) totalVal = .25F;
-		else if (hitColliders.Length == 0 && influence > 0) totalVal = -.25F;
+		if (hitColliders.Length == 1 && influence < 0) totalVal = .25F;
+		else if (hitColliders.Length == 1 && influence > 0) totalVal = -.25F;
+
 
 		//decide updated influence based off of player vs. ship counts
 		influence += totalVal;
@@ -72,6 +76,15 @@ public class ControlPoint : MonoBehaviour {
 		else spriteRend.color = Color.white;
 
 
+		if ((int)influence == 40 && totalVal > 0) {
+			foreach(Collider c in hitColliders) {
+				if(c.name.Contains("Player")) {
+					c.GetComponent<PlayerShip>().addScore(500);
+				}
+			}
+		}
+
+
 
 	}
 
@@ -81,6 +94,10 @@ public class ControlPoint : MonoBehaviour {
 
 	public float getInfluence() {
 		return influence;
+	}
+
+	public int getNearbyShips() {
+		return nearbyShips;
 	}
 
 	public void setActive() {

@@ -91,7 +91,6 @@ public class PlayerShip : MonoBehaviour {
 		controlPoints = GameObject.Find("ControlPoints").GetComponent<ControlPoints>();
 		//Add to master list of players
 		mPlayer = GameMaster.addPlayer(mGamepad);
-
 		//shade the player's ship the color of their controller
 		GetComponent<MeshRenderer>().material.color = mGamepad.Color;
 
@@ -101,6 +100,7 @@ public class PlayerShip : MonoBehaviour {
 
 		//transform.position = GameMaster.getSpawnPos();
 		transform.position = controlPoints.getPlayerSpawnPos();
+		transform.eulerAngles = new Vector3(0, 30, 0);
 
 		enemySpawner.spawnEnemy(); //spawn 2 enemies at the start of every player
 		enemySpawner.spawnEnemy();
@@ -127,38 +127,47 @@ public class PlayerShip : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+
 		doUserInput();
 
+		//print(health);
 		//Don't forget to update the shot timer
 		shootTimer += Time.deltaTime;
 
 		//TODO don't do this every frame. Testing only.
-		checkUpgrades();
+		//checkUpgrades();
 
-		if (Input.GetKeyDown(KeyCode.L)) {
-			GetComponent<Renderer>().material = upgradePlayerText;
-			GetComponent<MeshRenderer>().material.color = mGamepad.Color;
-		}
+		//if (Input.GetKeyDown(KeyCode.L)) {
+		//	GetComponent<Renderer>().material = upgradePlayerText;
+		//	GetComponent<MeshRenderer>().material.color = mGamepad.Color;
+		//}
+			
+
 	}
 
 	void OnGUI()
 	{
-		Vector3 vec = transform.position;
-		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20, 4), "", redStyle);
-		GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20 * health / originalHealth, 4), "", greenStyle);
+		if (health > 0) {
+		//Vector3 vec = transform.position;
+			Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+			GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20, 4), "", redStyle);
+			GUI.Label(new Rect(screenPos.x - 10, Screen.height - (screenPos.y + 15), 20 * health / originalHealth, 4), "", greenStyle);
+		}
 	}
 
 	void doUserInput() {
 
 		//If up is held, full steam ahead
 		if (Input.GetAxis("Vertical") > 0.2F || mInput.GetAxis("Vertical") < -0.2F) {
-			transform.position -= transform.forward * forwardSpeed * Time.deltaTime;
+			//transform.position -= transform.forward * forwardSpeed * Time.deltaTime;
+			GetComponent<CharacterController>().Move(-transform.forward * forwardSpeed * Time.deltaTime);
 		}
 		//Or we can go back using down
 		else if(Input.GetAxis("Vertical") < -0.2F || mInput.GetAxis("Vertical") > 0.2F) {
 			//there is no transform.left 
-			transform.position += transform.forward * backwardSpeed * Time.deltaTime;
+			//transform.position += transform.forward * backwardSpeed * Time.deltaTime;
+			GetComponent<CharacterController>().Move(transform.forward * forwardSpeed * Time.deltaTime);
 		}
 
 		//rotate left or right depending on the left/right button we press.
@@ -184,11 +193,18 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void takeDamage(int damage) {
+		print(damage);
 		health -= damage;
+		print(health);
 		if (health < 0) {
 			//DIE FOREVER! Or respawn, you know, whatever it comes to.
-
+			checkUpgrades(); //use this to reset the health
+			StartCoroutine("respawnPlayer");
 		}
+	}
+
+	public void addScore(int s) {
+		mPlayer.addScore(s);
 	}
 
 	//Do this whenever you reload back into the game?
@@ -270,6 +286,16 @@ public class PlayerShip : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
+	private IEnumerator respawnPlayer() {
+		GetComponent<MeshRenderer>().enabled = false;
+		GetComponent<BoxCollider>().enabled = false;
+		yield return new WaitForSeconds(2);
+		GetComponent<MeshRenderer>().enabled = true;
+		GetComponent<BoxCollider>().enabled = true;
+		transform.position = controlPoints.getPlayerSpawnPos();
+
+
+	}
 
 	private void onUpgrade(MessageCharacter data) {
 		string upgrade = data.upgradeName;
@@ -309,6 +335,8 @@ public class PlayerShip : MonoBehaviour {
 		if (upgrade.Equals(shipUpgradeCodes.missileRangeU)) {
 			mPlayer.addPlayerUpgrade(shipUpgrades.missileRange);
 		}
+
+		checkUpgrades();
 
 	}
 
