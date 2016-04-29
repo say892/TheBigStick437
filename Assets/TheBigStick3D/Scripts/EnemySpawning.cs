@@ -2,9 +2,8 @@
 using System.Collections;
 
 public class EnemySpawning : MonoBehaviour {
-
 	private const int ENEMIESPERPLAYER = 2;
-	private const int DELAYFORENEMYRESPAWN = 3; //seconds
+	private const int DELAYFORENEMYRESPAWN = 9; //seconds
 
 	[SerializeField]
 	private GameObject enemyShipPrefab;
