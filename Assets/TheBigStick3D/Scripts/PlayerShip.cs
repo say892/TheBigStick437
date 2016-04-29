@@ -168,7 +168,7 @@ public class PlayerShip : MonoBehaviour {
 		else if(Input.GetAxis("Vertical") < -0.2F || mInput.GetAxis("Vertical") > 0.2F) {
 			//there is no transform.left 
 			//transform.position += transform.forward * backwardSpeed * Time.deltaTime;
-			GetComponent<CharacterController>().Move(transform.forward * forwardSpeed * Time.deltaTime);
+			GetComponent<CharacterController>().Move(transform.forward * backwardSpeed * Time.deltaTime);
 		}
 
 		//rotate left or right depending on the left/right button we press.

@@ -208,13 +208,16 @@ public class EnemyShip : MonoBehaviour {
 			if (Vector3.Angle(transform.forward, nearestPlayer.transform.position - transform.position) > 1.0F) {
 				rotateTowardsPosition(nearestPlayer.transform.position);
 			}
-			else if(distanceToPlayer(nearestPlayer) > 7*7) {
+			else if(distanceToPlayer(nearestPlayer) > 14*14) {
 				moveForward();
+			}
+			else if(distanceToPlayer(nearestPlayer) > 8*8) {
+				moveForward();
+				Shoot();
 			}
 			else {
 				Shoot();
 			}
-
 			//if (distanceToPlayer(nearestPlayer) > 10) {
 				
 			//}
@@ -250,7 +253,7 @@ public class EnemyShip : MonoBehaviour {
 
 	GameObject findNearestPlayer(Vector3 pos) {
 
-		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10); //gets all objects within range
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, 18); //gets all objects within range
 	
 		List<GameObject> nearbyPlayers = new List<GameObject>();
 
