@@ -32,7 +32,7 @@ public struct ShipValues {
 	public static float		enemyForwardSpeed = 2.3F;
 	public static float		enemyBackwardSpeed = 1F;
 	public static float		enemyTurnSpeedDegrees = 105;
-	public static int		enemyMissileSpeed = 3;
+	public static int		enemyMissileSpeed = 5;
 	public static int		enemyMissileDamage = 300;
 	public static float		enemyMissileShotDelay = 5F;
 	public static int		enemyMissileRange = 15;
