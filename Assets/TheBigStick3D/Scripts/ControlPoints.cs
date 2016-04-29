@@ -105,7 +105,7 @@ public class ControlPoints : MonoBehaviour {
 		}
 
 		int num = Random.Range(0, validPoints.Count);
-		print((validPoints[num].gameObject).name);
+		//print((validPoints[num].gameObject).name);
 		return validPoints[num].gameObject.transform.GetChild(1).position;
 	}
 

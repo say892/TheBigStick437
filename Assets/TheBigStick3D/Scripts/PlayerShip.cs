@@ -143,6 +143,25 @@ public class PlayerShip : MonoBehaviour {
 		//	GetComponent<Renderer>().material = upgradePlayerText;
 		//	GetComponent<MeshRenderer>().material.color = mGamepad.Color;
 		//}
+
+
+		//ignore all other players, we can drive through them 
+		//TERRIBLY inefficient... but this is due tomorrow. We're litterally presenting in less than 24 hours.
+		GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+		foreach(GameObject p in allPlayers) {
+			Physics.IgnoreCollision(GetComponent<CharacterController>(), p.GetComponent<CharacterController>());
+		}
+
+		//I wanna plow some enemies
+		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+		foreach(GameObject e in allEnemies) {
+			Physics.IgnoreCollision(GetComponent<CharacterController>(), e.GetComponent<BoxCollider>());
+		}
+
+
+
 			
 
 	}
@@ -163,12 +182,14 @@ public class PlayerShip : MonoBehaviour {
 		if (Input.GetAxis("Vertical") > 0.2F || mInput.GetAxis("Vertical") < -0.2F) {
 			//transform.position -= transform.forward * forwardSpeed * Time.deltaTime;
 			GetComponent<CharacterController>().Move(-transform.forward * forwardSpeed * Time.deltaTime);
+			//GetComponent<Rigidbody>().velocity = transform.forward * forwardSpeed * Time.deltaTime;
 		}
 		//Or we can go back using down
 		else if(Input.GetAxis("Vertical") < -0.2F || mInput.GetAxis("Vertical") > 0.2F) {
 			//there is no transform.left 
 			//transform.position += transform.forward * backwardSpeed * Time.deltaTime;
 			GetComponent<CharacterController>().Move(transform.forward * backwardSpeed * Time.deltaTime);
+			//GetComponent<Rigidbody>().velocity = -transform.forward * backwardSpeed * Time.deltaTime;
 		}
 
 		//rotate left or right depending on the left/right button we press.
@@ -179,10 +200,12 @@ public class PlayerShip : MonoBehaviour {
 			transform.Rotate(new Vector3(0, -turnSpeedDegrees * Time.deltaTime, 0));
 		}
 
+
+
 		//FIRE AT WILL!
 		if (Input.GetKey(KeyCode.Space) || mInput.GetButton("Fire1")) {
 			//If we're loaded of course
-			if(shootTimer > missileShotDelay) {
+			if(shootTimer > missileShotDelay && health > 0) {
 				shootTimer = 0;
 				//create the bullet and then set the needed information in the new bullet
 				GameObject newBullet = (GameObject)Instantiate(bulletPrefab, transform.FindChild("BulletSpawnPos").position, transform.rotation);
@@ -194,13 +217,13 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void takeDamage(int damage) {
-		print(damage);
+		//print(damage);
 		health -= damage;
-		print(health);
+		//print(health);
 		if (health < 0) {
 			//DIE FOREVER! Or respawn, you know, whatever it comes to.
 			checkUpgrades(); //use this to reset the health
-
+			mPlayer.addScore(-150);
 			GetComponent<MeshRenderer>().enabled = false;
 			//GetComponent<BoxCollider>().enabled = false;
 			transform.position = controlPoints.getPlayerSpawnPos();

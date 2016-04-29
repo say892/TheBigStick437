@@ -34,6 +34,7 @@ public class MuseumPlayer {
 
 	public void addScore(int s) {
 		score += s;
+		if (score < 0) score = 0;
 	}
 
 	public int getPlayerUpgrades() {

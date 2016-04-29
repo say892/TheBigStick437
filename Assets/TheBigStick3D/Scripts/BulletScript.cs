@@ -46,9 +46,49 @@ public class BulletScript : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 
+		//if a player shot this, make sure it doesn't hit any other players (VERY BAD, SEE PLAYERSHIP.UPDATE)
+		if (origin != null) {
+			GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+			foreach(GameObject p in allPlayers) {
+				Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CharacterController>());
+			}
+		}
+
+
 	}
 
 	void OnCollisionEnter(Collision other) {
+		//print(other.gameObject.name);
+
+		if (origin != null) {
+			if (other.gameObject.name.Contains("Enemy")) {
+				//Destroy(other.gameObject);
+				if (other.gameObject.GetComponent<EnemyShip>().takeDamage(damage)) {
+					origin.addScore(50); //Just assume it's never the boss. TODO TODO TODO
+					Instantiate(explosionPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+				}
+				//Destroy(this.gameObject);
+			}
+		}
+		else {
+			if (other.gameObject.name.Contains("Player")) {
+				//Destroy(other.gameObject);
+				other.gameObject.GetComponent<PlayerShip>().takeDamage(damage);
+				//Destroy(this.gameObject);
+			}
+		}
+		//don't break on map, and can pass through other players
+		//if (!other.gameObject.name.Equals("Map") || 
+		if (!(other.gameObject.name.Contains("Player") && origin != null)) {
+			Destroy(this.gameObject); //break on any other hit
+		}
+
+
+	}
+
+	void OnTriggerEnter(Collider other) {
+		print("TRIGGERED");
 		print(other.gameObject.name);
 
 		if (origin != null) {
@@ -68,7 +108,9 @@ public class BulletScript : MonoBehaviour {
 				//Destroy(this.gameObject);
 			}
 		}
-		if (!other.gameObject.name.Equals("Map")) {
+		//don't break on map, and can pass through other players
+		//if (!other.gameObject.name.Equals("Map") || 
+		if (!(other.gameObject.name.Contains("Player") && origin != null)) {
 			Destroy(this.gameObject); //break on any other hit
 		}
 
