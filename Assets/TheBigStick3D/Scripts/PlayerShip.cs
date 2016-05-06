@@ -326,10 +326,10 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	private void onUpgrade(MessageCharacter data) {
-		string upgrade = data.upgradeName;
+		string upgrade = data.upgradeName.ToLower();
 
 		//Teehee
-		if (upgrade.Equals("God")) {
+		if (upgrade.Equals("impeachzach")) {
 			mPlayer.addPlayerUpgrade(shipUpgrades.health);
 			mPlayer.addPlayerUpgrade(shipUpgrades.forwardSpeed);
 			mPlayer.addPlayerUpgrade(shipUpgrades.backwardSpeed);

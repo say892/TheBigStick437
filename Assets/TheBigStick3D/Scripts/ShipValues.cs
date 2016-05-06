@@ -81,12 +81,12 @@ public struct shipUpgradesBit
 }
 
 public struct shipUpgradeCodes {
-	public static string healthU = "Health";
-	public static string forwardSpeedU = "Forward";
-	public static string backwardSpeedU = "Backward";
-	public static string turnSpeedDegreesU = "Turn";
-	public static string missileSpeedU = "Speed";
-	public static string missileDamageU = "Damage";
-	public static string missileShotDelayU = "Shot";
-	public static string missileRangeU = "Range";
+	public static string healthU = "swap";
+	public static string forwardSpeedU = "tothetop";
+	public static string backwardSpeedU = "transit";
+	public static string turnSpeedDegreesU = "boderlineplagerism";
+	public static string missileSpeedU = "deepbluesea";
+	public static string missileDamageU = "butterfly";
+	public static string missileShotDelayU = "kitteh";
+	public static string missileRangeU = "helicopter";
 }
